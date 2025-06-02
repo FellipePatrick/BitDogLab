@@ -33,9 +33,18 @@ project(main C CXX ASM)
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
+
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(main main.c inc/ssd1306_i2c.c )
+# Adiciona o executável
+add_executable(main
+    main.c
+    ws2818b.pio
+    inc/ssd1306_i2c.c 
+)
+
+# Gera o header do programa PIO com caminho completo
+pico_generate_pio_header(main ${CMAKE_CURRENT_LIST_DIR}/ws2818b.pio)
 
 pico_set_program_name(main "main")
 pico_set_program_version(main "0.1")
@@ -65,6 +74,7 @@ target_link_libraries(main
         pico_stdlib
         hardware_adc
         hardware_pwm
+        hardware_pio
         hardware_clocks
         )
 
